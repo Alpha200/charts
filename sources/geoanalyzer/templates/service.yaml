@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "geoanalyzer.fullname" . }}-frontend
+  labels:
+    {{- include "geoanalyzer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.portFrontend}}
+      targetPort: http-frontend
+      protocol: TCP
+      name: http-frontend
+  selector:
+    {{- include "geoanalyzer.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "geoanalyzer.fullname" . }}-backend
+  labels:
+    {{- include "geoanalyzer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.portBackend }}
+      targetPort: http-backend
+      protocol: TCP
+      name: http-backend
+  selector:
+    {{- include "geoanalyzer.selectorLabels" . | nindent 4 }}
